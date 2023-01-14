@@ -101,7 +101,7 @@ class _AddTimeState extends State<AddTime> {
                       ],
                     ),
                     Text(
-                        times[f].hour <= 12 ? "${times[f].hour}:${times[f].minute == 0 ? '00' : times[f].minute<=9 ? '0' + times[f].minute.toString() : times[f].minute} AM"
+                        times[f].hour < 12 ? "${times[f].hour}:${times[f].minute == 0 ? '00' : times[f].minute<=9 ? '0' + times[f].minute.toString() : times[f].minute} AM"
                         : "${times[f].hour - 12}:${times[f].minute == 0 ? '00' : times[f].minute<=9 ? '0' + times[f].minute.toString() : times[f].minute} PM",
                         style: GoogleFonts.ubuntu(
                             fontSize: 16,
@@ -202,7 +202,10 @@ class _AddTimeState extends State<AddTime> {
                         while (!(act.compareTo(widget.endDate.add(Duration(days: 1))) > 0)) {
                           bool added = false;
                           times.forEach((time) {
-                            if (act.day <= widget.endDate.day && act.hour == time.hour && time.minute == act.minute && !added) {
+                            if (
+                                act.hour == time.hour
+                                && time.minute == act.minute
+                                && !added) {
                               save(widget.name.toString(), "${act.hour}:${act.minute}",
                                   "${act.month}/${act.day}/${act.year}");
                               added = true;
