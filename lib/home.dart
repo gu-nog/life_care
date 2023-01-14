@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:life_care/screens/add.dart';
+import 'package:life_care/screens/calendar.dart';
+import 'package:life_care/screens/schedule.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -11,6 +14,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   int _currentIndex = 1;
+  List screens = [
+    Schedule(),
+    AddMedicine(),
+    Calendar()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +31,8 @@ class _HomeState extends State<Home> {
           appBar: PreferredSize(
             preferredSize: Size(width, height / 10),
             child: Container(
-              color: Color.fromRGBO(240, 45, 58, 1),
+              color: _currentIndex != 1 ? const Color.fromRGBO(240, 45, 58, 1)
+                  : const Color.fromRGBO(200, 28, 39, 1),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -31,8 +40,11 @@ class _HomeState extends State<Home> {
                       padding: const EdgeInsets.only(
                         left: 20
                       ),
-                      child: Image.asset(
+                      child: _currentIndex != 1 ? Image.asset(
                           'assets/logo.png',
+                          width: height/10 - 20
+                      ) : Image.asset(
+                          'assets/darklogo.png',
                           width: height/10 - 20
                       ),
                   ),
@@ -55,6 +67,7 @@ class _HomeState extends State<Home> {
               ),
             )
           ),
+          body: screens[_currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             onTap: (int index) {
               setState(() {
@@ -64,7 +77,8 @@ class _HomeState extends State<Home> {
             selectedItemColor: Color.fromRGBO(239, 246, 238, 1),
             selectedFontSize: 16,
             currentIndex: _currentIndex,
-            backgroundColor: const Color.fromRGBO(240, 45, 58, 1),
+            backgroundColor: _currentIndex != 1 ? const Color.fromRGBO(240, 45, 58, 1)
+                : const Color.fromRGBO(200, 28, 39, 1),
             unselectedLabelStyle: GoogleFonts.ubuntu(
               textStyle: const TextStyle(
                 fontSize: 14,
