@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:life_care/database.dart';
 
 class Drugs extends StatefulWidget {
   const Drugs({Key? key}) : super(key: key);
@@ -8,8 +9,9 @@ class Drugs extends StatefulWidget {
 }
 
 class _DrugsState extends State<Drugs> {
+
   @override
   Widget build(BuildContext context) {
-    return Text("drugs");
+    return const Text("drugs");
   }
 }

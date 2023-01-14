@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:life_care/database.dart';
+import 'package:life_care/home.dart';
+import 'package:life_care/screens/drugs.dart';
 
 
 class AddTime extends StatefulWidget {
@@ -33,14 +36,6 @@ class _AddTimeState extends State<AddTime> {
       TimeOfDay t = const TimeOfDay(hour: 12, minute: 30);
       times[i] = t;
     }
-  }
-
-  List<String> getTimes() {
-    List<String> data = [];
-    for (int i=0; i<widget.dailyDoses; i++) {
-      data.add(times[i].toString());
-    }
-    return data;
   }
 
   List<Widget> getFields() {
@@ -106,8 +101,8 @@ class _AddTimeState extends State<AddTime> {
                       ],
                     ),
                     Text(
-                        times[f].hour <= 12 ? "${times[f].hour}:${times[f].minute == 0 ? '00' : times[f].minute==5 ? '05' : times[f].minute} AM"
-                        : "${times[f].hour - 12}:${times[f].minute == 0 ? '00' : times[f].minute==5 ? '05' : times[f].minute} PM",
+                        times[f].hour <= 12 ? "${times[f].hour}:${times[f].minute == 0 ? '00' : times[f].minute<=9 ? '0' + times[f].minute.toString() : times[f].minute} AM"
+                        : "${times[f].hour - 12}:${times[f].minute == 0 ? '00' : times[f].minute<=9 ? '0' + times[f].minute.toString() : times[f].minute} PM",
                         style: GoogleFonts.ubuntu(
                             fontSize: 16,
                             color: Colors.black,
@@ -203,11 +198,24 @@ class _AddTimeState extends State<AddTime> {
                     ),
                     onPressed: () {
                       setState(() {
-                        print(getTimes());
-                        print(widget.dailyDoses);
-                        print(widget.endDate);
-                        print(widget.startDate);
-                        print(widget.name);
+                        DateTime act = widget.startDate;
+                        while (!(act.compareTo(widget.endDate.add(Duration(days: 1))) > 0)) {
+                          bool added = false;
+                          times.forEach((time) {
+                            if (act.day <= widget.endDate.day && act.hour == time.hour && time.minute == act.minute && !added) {
+                              save(widget.name.toString(), "${act.hour}:${act.minute}",
+                                  "${act.month}/${act.day}/${act.year}");
+                              added = true;
+                            }
+                          });
+                          act = act.add(const Duration(minutes: 1));
+                        }
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Home()
+                          ), (route) => false
+                        );
                       });
                     },
                     icon: const Icon(
