@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:life_care/screens/addTime.dart';
 
 class AddMedicine extends StatefulWidget {
   const AddMedicine({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class _AddMedicineState extends State<AddMedicine> {
   int error_size = 0;
   String errorName = "";
   String errorDoses = "";
+  int page = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -30,25 +32,26 @@ class _AddMedicineState extends State<AddMedicine> {
     double bottom = 70;
     double keyboard = MediaQuery.of(context).viewInsets.bottom;
 
-    return Container(
-      width: width,
-      color: const Color.fromRGBO(246, 246, 246, 1),
-      height: height-appBar-bottom-keyboard+error_size,
-      child: Center(
-        child: Container(
-            height: height/ 2.3 + error_size,
+    if (page == 1) {
+      return Container(
+        width: width,
+        color: const Color.fromRGBO(246, 246, 246, 1),
+        height: height - appBar - bottom - keyboard + error_size,
+        child: Center(
+          child: Container(
+            height: height / 2.3 + error_size,
             width: width / 1.5,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color.fromRGBO(232, 232, 232, 1),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ]
+                borderRadius: BorderRadius.circular(10),
+                color: const Color.fromRGBO(232, 232, 232, 1),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ]
             ),
             child: Column(
               children: [
@@ -57,7 +60,7 @@ class _AddMedicineState extends State<AddMedicine> {
                   child: Row(
                     children: [
                       SizedBox(
-                        width: width/1.9,
+                        width: width / 1.9,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15, right: 8),
                           child: TextField(
@@ -108,7 +111,9 @@ class _AddMedicineState extends State<AddMedicine> {
                           context: context,
                           initialDate: _datetimeStart,
                           firstDate: DateTime.now(),
-                          lastDate: DateTime(DateTime.now().year + 50)
+                          lastDate: DateTime(DateTime
+                              .now()
+                              .year + 50)
                       ).then((value) {
                         setState(() {
                           _datetimeStart = value!;
@@ -135,7 +140,8 @@ class _AddMedicineState extends State<AddMedicine> {
                           ],
                         ),
                         Text(
-                            "${_datetimeStart.month}/${_datetimeStart.day}/${_datetimeStart.year}",
+                            "${_datetimeStart.month}/${_datetimeStart
+                                .day}/${_datetimeStart.year}",
                             style: GoogleFonts.ubuntu(
                                 fontSize: 16,
                                 color: Colors.black,
@@ -147,14 +153,17 @@ class _AddMedicineState extends State<AddMedicine> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 15),
+                  padding: const EdgeInsets.only(
+                      top: 10, left: 15, right: 15, bottom: 15),
                   child: GestureDetector(
                     onTap: () {
                       showDatePicker(
                           context: context,
                           initialDate: _datetimeFinish,
                           firstDate: DateTime.now(),
-                          lastDate: DateTime(DateTime.now().year + 50)
+                          lastDate: DateTime(DateTime
+                              .now()
+                              .year + 50)
                       ).then((value) {
                         setState(() {
                           _datetimeFinish = value!;
@@ -175,13 +184,14 @@ class _AddMedicineState extends State<AddMedicine> {
                               ),
                             ),
                             const Icon(
-                                Icons.calendar_month,
-                                size: 32,
+                              Icons.calendar_month,
+                              size: 32,
                             )
                           ],
                         ),
                         Text(
-                            "${_datetimeFinish.month}/${_datetimeFinish.day}/${_datetimeFinish.year}",
+                            "${_datetimeFinish.month}/${_datetimeFinish
+                                .day}/${_datetimeFinish.year}",
                             style: GoogleFonts.ubuntu(
                                 fontSize: 16,
                                 color: Colors.black,
@@ -223,11 +233,12 @@ class _AddMedicineState extends State<AddMedicine> {
                 Center(
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      primary: const Color.fromRGBO(240, 45, 58, 1)
+                        primary: const Color.fromRGBO(240, 45, 58, 1)
                     ),
                     onPressed: () {
                       setState(() {
-                        if (_nameController.text == "" || _dailyDosesController.text == "") {
+                        if (_nameController.text == "" || _dailyDosesController
+                            .text == "") {
                           error_size = 0;
                           if (_nameController.text == "") {
                             errorName = "Missing medicine name!";
@@ -249,10 +260,9 @@ class _AddMedicineState extends State<AddMedicine> {
                           errorName = "";
                           error_size = 0;
 
-                          print(_nameController.text);
-                          print(_datetimeStart);
-                          print(_datetimeFinish);
-                          print(_dailyDosesController.text);
+                          setState(() {
+                            page = 2;
+                          });
                         }
                       });
                     },
@@ -262,19 +272,25 @@ class _AddMedicineState extends State<AddMedicine> {
                       color: Color.fromRGBO(239, 246, 238, 1),
                     ),
                     label: Text(
-                        'Proceed',
+                      'Proceed',
                       style: GoogleFonts.ubuntu(
-                        fontSize: 16,
-                        color: Color.fromRGBO(239, 246, 238, 1)
+                          fontSize: 16,
+                          color: Color.fromRGBO(239, 246, 238, 1)
                       ),
                     ),
                   ),
                 )
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    } else if (page == 2) {
+      return AddTime(name: _nameController.text, startDate: _datetimeStart, endDate: _datetimeFinish, dailyDoses: int.parse(_dailyDosesController.text));
+    }
+    else {
+      return Container();
+    }
   }
 }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:life_care/screens/add.dart';
 import 'package:life_care/screens/calendar.dart';
-import 'package:life_care/screens/schedule.dart';
+import 'package:life_care/screens/drugs.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class _HomeState extends State<Home> {
 
   int _currentIndex = 1;
   List screens = [
-    Schedule(),
+    Drugs(),
     AddMedicine(),
     Calendar()
   ];
@@ -54,7 +54,6 @@ class _HomeState extends State<Home> {
                       ),
                       child: IconButton(
                           onPressed: () {
-                            print("helo");
                           },
                           icon: const Icon(
                               Icons.settings,
@@ -87,9 +86,9 @@ class _HomeState extends State<Home> {
             ),
             items: const [
               BottomNavigationBarItem(
-                  label: 'schedule',
+                  label: 'drugs',
                   icon: Icon(
-                      Icons.alarm,
+                      Icons.inventory_outlined,
                       color: Color.fromRGBO(239, 246, 238, 1),
                       size: 37
                   )
