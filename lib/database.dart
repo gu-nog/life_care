@@ -105,3 +105,25 @@ invertActivation(int id, context) async {
     await db.rawQuery("UPDATE $alarmTable SET $activeCol = 1, $alarmIdCol = $_id WHERE id = $id");
   }
 }
+
+Future<Map<String, List<int>>> getDrugs() async {
+  Database db = await _recoverBD();
+  List<Map<String,dynamic>> drugs = await db.rawQuery("SELECT * FROM $alarmTable");
+  Map<String,List<int>> drug = {};
+  drugs.forEach((element) {
+    if (!drug.containsKey(element['drug'])) {
+      drug[element['drug']] = [element['id']];
+    }
+    else {
+      drug[element['drug']]?.add(element['id']);
+    }
+  });
+  return drug;
+}
+
+deleteDrug(List<int> ids) async {
+  Database db = await _recoverBD();
+  ids.forEach((element) async {
+    await db.rawQuery("DELETE FROM $alarmTable WHERE id = $element");
+  });
+}

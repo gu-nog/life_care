@@ -39,7 +39,7 @@ class _AddMedicineState extends State<AddMedicine> {
         height: height - appBar - bottom - keyboard + error_size,
         child: Center(
           child: Container(
-            height: height / 2.3 + error_size,
+            height: height / 2.2 + error_size,
             width: width / 1.5,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
