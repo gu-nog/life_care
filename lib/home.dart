@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:life_care/notifications.dart';
 import 'package:life_care/screens/add.dart';
 import 'package:life_care/screens/calendar.dart';
 import 'package:life_care/screens/drugs.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -19,6 +21,17 @@ class _HomeState extends State<Home> {
     AddMedicine(),
     Calendar()
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    checkNotifications();
+    super.initState();
+  }
+
+  checkNotifications() async {
+    await Provider.of<NotificationService>(context, listen: false).checkForNotifications();
+  }
 
   @override
   Widget build(BuildContext context) {

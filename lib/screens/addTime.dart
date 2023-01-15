@@ -207,7 +207,7 @@ class _AddTimeState extends State<AddTime> {
                                 && time.minute == act.minute
                                 && !added) {
                               save(widget.name.toString(), "${act.hour}:${act.minute}",
-                                  "${act.month}/${act.day}/${act.year}");
+                                  "${act.month}/${act.day}/${act.year}", context);
                               added = true;
                             }
                           });

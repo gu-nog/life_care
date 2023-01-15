@@ -74,9 +74,10 @@ class _seeDayState extends State<seeDay> {
                         Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: IconButton(
-                              onPressed: () {
+                              onPressed: () async {
+                                await invertActivation(element['id'], context);
                                 setState(() {
-                                  invertActivation(element['id']);
+
                                 });
                               },
                               icon: element["active"] == 1 ? const Icon(
